@@ -24435,6 +24435,7 @@ __metadata:
     autoprefixer: ^10.4.13
     daisyui: ^2.50.2
     dayjs: ^1.11.7
+    humanize-string: 2.1.0
     postcss: ^8.4.21
     postcss-loader: ^7.0.2
     prop-types: 15.8.1

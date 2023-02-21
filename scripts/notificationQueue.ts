@@ -2,7 +2,7 @@ import { Worker } from 'bullmq'
 
 // TODO: add explicit connection
 export default async ({ _args }) => {
-  const _worker = new Worker('Message', async (job) => {
+  const _worker = new Worker('Message', async (_job) => {
     // const processingKey = job.data['processingKey']
     // const notifRequest = await db.notificationRequest.findUnique({
     //   where: {

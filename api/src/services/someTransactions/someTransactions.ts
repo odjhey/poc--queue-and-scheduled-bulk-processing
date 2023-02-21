@@ -67,3 +67,22 @@ export const processSomeTransaction: MutationResolvers['processSomeTransaction']
 
     return someTr
   }
+
+export const processAllSomeTransaction: MutationResolvers['processAllSomeTransaction'] =
+  async () => {
+    const someTrs = await db.someTransaction.findMany()
+
+    // atleast await the queueing
+    await Promise.all(
+      someTrs.map(async (someTr) => {
+        const jobName = someTr.processingKey // use pk or some concat based on id
+        const _schedule = await notificationQueue.add(jobName, {
+          input: someTr,
+          processingKey: someTr.processingKey,
+        })
+        // if schedule, handle if it matters
+      })
+    )
+
+    return someTrs
+  }

@@ -30,5 +30,6 @@ export const schema = gql`
     ): SomeTransaction! @requireAuth
     deleteSomeTransaction(id: Int!): SomeTransaction! @requireAuth
     processSomeTransaction(id: Int!): SomeTransaction! @requireAuth
+    processAllSomeTransaction: [SomeTransaction!]! @requireAuth
   }
 `

@@ -73,7 +73,7 @@ const SomeTransactionsList = ({ someTransactions }: FindSomeTransactions) => {
     id: ProcessSomeTransactionMutationVariables['id']
   ) => {
     if (
-      confirm('Are you sure you want to delete someTransaction ' + id + '?')
+      confirm('Are you sure you want to process someTransaction ' + id + '?')
     ) {
       processSomeTransaction({ variables: { id } })
     }

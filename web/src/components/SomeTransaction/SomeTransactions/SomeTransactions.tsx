@@ -1,6 +1,7 @@
 import type {
   DeleteSomeTransactionMutationVariables,
   FindSomeTransactions,
+  ProcessSomeTransactionMutationVariables,
 } from 'types/graphql'
 
 import { Link, routes } from '@redwoodjs/router'
@@ -13,6 +14,13 @@ import { timeTag, truncate } from 'src/lib/formatters'
 const DELETE_SOME_TRANSACTION_MUTATION = gql`
   mutation DeleteSomeTransactionMutation($id: Int!) {
     deleteSomeTransaction(id: $id) {
+      id
+    }
+  }
+`
+const PROCESS_SOME_TRANSACTION_MUTATION = gql`
+  mutation ProcessSomeTransactionMutation($id: Int!) {
+    processSomeTransaction(id: $id) {
       id
     }
   }
@@ -36,11 +44,38 @@ const SomeTransactionsList = ({ someTransactions }: FindSomeTransactions) => {
     }
   )
 
+  const [processSomeTransaction] = useMutation(
+    PROCESS_SOME_TRANSACTION_MUTATION,
+    {
+      onCompleted: () => {
+        toast.success('SomeTransaction processed')
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+      // This refetches the query on the list page. Read more about other ways to
+      // update the cache over here:
+      // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
+      refetchQueries: [{ query: QUERY }],
+      awaitRefetchQueries: true,
+    }
+  )
+
   const onDeleteClick = (id: DeleteSomeTransactionMutationVariables['id']) => {
     if (
       confirm('Are you sure you want to delete someTransaction ' + id + '?')
     ) {
       deleteSomeTransaction({ variables: { id } })
+    }
+  }
+
+  const onProcessClick = (
+    id: ProcessSomeTransactionMutationVariables['id']
+  ) => {
+    if (
+      confirm('Are you sure you want to delete someTransaction ' + id + '?')
+    ) {
+      processSomeTransaction({ variables: { id } })
     }
   }
 
@@ -86,6 +121,14 @@ const SomeTransactionsList = ({ someTransactions }: FindSomeTransactions) => {
                     onClick={() => onDeleteClick(someTransaction.id)}
                   >
                     Delete
+                  </button>
+                  <button
+                    type="button"
+                    title={'Process someTransaction ' + someTransaction.id}
+                    className="rw-button rw-button-small rw-button-blue"
+                    onClick={() => onProcessClick(someTransaction.id)}
+                  >
+                    Process
                   </button>
                 </nav>
               </td>

@@ -13,6 +13,7 @@ export const schema = gql`
   input CreateSomeTransactionInput {
     owner: String!
     lastProcessedAt: DateTime
+    isNotifyNow: Boolean
   }
 
   input UpdateSomeTransactionInput {
@@ -28,5 +29,6 @@ export const schema = gql`
       input: UpdateSomeTransactionInput!
     ): SomeTransaction! @requireAuth
     deleteSomeTransaction(id: Int!): SomeTransaction! @requireAuth
+    processSomeTransaction(id: Int!): SomeTransaction! @requireAuth
   }
 `

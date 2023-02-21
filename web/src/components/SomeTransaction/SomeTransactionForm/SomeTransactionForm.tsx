@@ -11,6 +11,7 @@ import {
   TextField,
   DatetimeLocalField,
   Submit,
+  CheckboxField,
 } from '@redwoodjs/forms'
 import type { RWGqlError } from '@redwoodjs/forms'
 
@@ -83,6 +84,15 @@ const SomeTransactionForm = (props: SomeTransactionFormProps) => {
         />
 
         <FieldError name="lastProcessedAt" className="rw-field-error" />
+
+        <Label
+          name="isNotifyNow"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Notify After Create?
+        </Label>
+        <CheckboxField name="isNotifyNow"></CheckboxField>
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
